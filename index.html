@@ -17,24 +17,54 @@
             overflow: hidden;
             text-align: center;
         }
+        .box {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            max-width: 90%;
+        }
         h1 {
             color: #1e293b;
-            font-size: 2rem;
-            padding: 0 20px;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 12px 16px;
+            font-size: 1.1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            outline: none;
+            width: 240px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        input:focus {
+            border-color: #3b82f6;
         }
         .buttons {
-            margin-top: 30px;
+            margin-top: 25px;
             display: flex;
+            justify-content: center;
             gap: 20px;
         }
         button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 14px 28px;
+            font-size: 1.1rem;
             font-weight: bold;
             border: none;
             border-radius: 12px;
             cursor: pointer;
             transition: transform 0.15s ease;
+        }
+        #startBtn {
+            background-color: #3b82f6;
+            color: white;
+            display: block;
+            margin: 0 auto;
+        }
+        #startBtn:hover {
+            background-color: #2563eb;
         }
         #yesBtn {
             background-color: #22c55e;
@@ -51,28 +81,71 @@
         }
         #result {
             margin-top: 25px;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: #0284c7;
             font-weight: bold;
             display: none;
+        }
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
-    <h1 id="question">lên Locket Gold</h1>
-    
-    <div class="buttons">
-        <button id="yesBtn">Đồng ý luôn!</button>
-        <button id="noBtn">Không bao giờ</button>
+    <!-- Màn hình 1: Nhập tên -->
+    <div id="introScreen" class="box">
+        <h1>Trước khi bắt đầu,nhập họ tên vào nhé 👇</h1>
+        <input type="text" id="nameInput" placeholder="Nhập tên của bạn..." autocomplete="off">
+        <button id="startBtn">Bắt đầu ngay</button>
     </div>
 
-    <div id="result">Bạn Đã Kích Hoạt Thành Công</div>
+    <!-- Màn hình 2: Câu hỏi chính -->
+    <div id="gameScreen" class="hidden">
+        <h1 id="question"></h1>
+        
+        <div class="buttons">
+            <button id="yesBtn">Đồng ý luôn!</button>
+            <button id="noBtn">Không bao giờ</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
 
     <script>
+        const introScreen = document.getElementById('introScreen');
+        const gameScreen = document.getElementById('gameScreen');
+        const nameInput = document.getElementById('nameInput');
+        const startBtn = document.getElementById('startBtn');
+        
+        const question = document.getElementById('question');
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const result = document.getElementById('result');
+
+        let playerName = "Bạn";
+
+        function startGame() {
+            const rawName = nameInput.value.trim();
+            if (rawName === "") {
+                alert("Bạn chưa nhập tên kìa! Nhập tên để tiếp tục nhé.");
+                nameInput.focus();
+                return;
+            }
+            playerName = rawName;
+            
+            // Gắn tên người chơi vào câu hỏi và kết quả
+            question.textContent = `${playerName} Có Đồng Ý Chuyển Mình 500k Không`;
+            result.textContent = `🎉 Tuyệt vời! Cảm ơn ${playerName} nhiều nhé, mình đã chụp màn hình làm bằng chứng rồi! 📸`;
+
+            introScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+        }
+
+        startBtn.addEventListener('click', startGame);
+        nameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') startGame();
+        });
 
         function moveButton() {
             const maxX = window.innerWidth - noBtn.offsetWidth - 20;
