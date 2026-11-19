@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khảo sát cực kỳ nghiêm túc</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f4f8;
+            overflow: hidden;
+            text-align: center;
+        }
+        h1 {
+            color: #1e293b;
+            font-size: 2rem;
+            padding: 0 20px;
+        }
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        #yesBtn {
+            background-color: #22c55e;
+            color: white;
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+        }
+        #yesBtn:hover {
+            transform: scale(1.1);
+        }
+        #noBtn {
+            background-color: #ef4444;
+            color: white;
+            position: relative;
+        }
+        #result {
+            margin-top: 25px;
+            font-size: 1.4rem;
+            color: #0284c7;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="question">lên Locket Gold</h1>
+    
+    <div class="buttons">
+        <button id="yesBtn">Đồng ý luôn!</button>
+        <button id="noBtn">Không bao giờ</button>
+    </div>
+
+    <div id="result">Bạn Đã Kích Hoạt Thành Công</div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const result = document.getElementById('result');
+
+        function moveButton() {
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            result.style.display = 'block';
+            noBtn.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
